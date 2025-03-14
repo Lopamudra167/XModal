@@ -42,7 +42,7 @@ function Modal(){
         </div>
         {open && (
           <div className="modal" onClick={handleClose}>
-          <div className="modal-content" >
+          <div className="modal-content" ref={modalRef} >
             <h3>Fill Details</h3>
             <form onSubmit={handleSubmit} >
               <label>Username: </label>
