@@ -1,3 +1,5 @@
+
+
 import './Modal.css';
 
 import React, {
@@ -69,7 +71,8 @@ const Modal = () => {
 
   return (
     <Fragment>
-      <h1>User Details Modal</h1>
+        <div className="container">
+        <h1>User Details Modal</h1>
       <button onClick={() => setOpen(true)}>Open Form</button>
 
       {open && (
@@ -118,6 +121,8 @@ const Modal = () => {
           </div>
         </div>
       )}
+        </div>
+
     </Fragment>
   );
 };
