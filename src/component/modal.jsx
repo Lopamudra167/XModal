@@ -1,45 +1,44 @@
-import { useState, useRef, useEffect } from 'react';
-import './modal.css';
+import { useState, useRef, useEffect } from "react";
+import "./modal.css";
 
 function Modal() {
     const [open, setOpen] = useState(false);
     const [form, setForm] = useState({ username: "", email: "", phone: "", dob: "" });
     const modalRef = useRef(null);
 
-    // Close modal if clicked outside
+    // Close modal when clicking outside
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (modalRef.current && !modalRef.current.contains(e.target)) {
                 setOpen(false);
             }
         };
-    
+
         if (open) {
             document.addEventListener("mousedown", handleClickOutside);
-        } else {
-            setTimeout(() => {
-                // Ensure the modal is fully removed before Cypress checks
-            }, 0);
         }
-    
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [open]);
-    
-    
-
-    // Ensure modal is removed from the DOM when closed
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     // Validate phone and date of birth
     const isValidForm = () => {
-        if (form.phone.length !== 10) return alert("Invalid phone number. Please enter a 10-digit phone number."), false;
+        if (form.phone.length !== 10) {
+            alert("Invalid phone number. Please enter a 10-digit phone number.");
+            return false;
+        }
 
         const dob = new Date(form.dob);
-        if (isNaN(dob) || dob > new Date()) return alert("Enter a valid date of birth."), false;
+        if (isNaN(dob)) {
+            alert("Invalid date of birth. Please enter a valid date.");
+            return false;
+        } 
+        else if (dob > new Date()) {
+            alert("Invalid date of birth. Date of birth cannot be in the future.");
+            return false;
+        }
 
         return true;
     };
@@ -47,7 +46,7 @@ function Modal() {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!isValidForm()) return;
+        if (!isValidForm()) return;  // Stop if validation fails
 
         setForm({ username: "", email: "", phone: "", dob: "" });
         setOpen(false);
@@ -63,7 +62,7 @@ function Modal() {
                 <button onClick={() => setOpen(true)}>Open Form</button>
             </div>
             {open && (
-                <div className="modal" onClick={handleClose}>
+                <div className="modal-overlay" onClick={() => setOpen(false)}>
                     <div className="modal-content" ref={modalRef} onClick={(e) => e.stopPropagation()}>
                         <h3>Fill Details</h3>
                         <form onSubmit={handleSubmit}>
@@ -89,6 +88,8 @@ function Modal() {
 }
 
 export default Modal;
+
+
 // import './Modal.css';
 
 // import React, {
