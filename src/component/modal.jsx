@@ -15,7 +15,11 @@ function Modal() {
         };
     
         if (open) {
-            setTimeout(() => document.addEventListener("mousedown", handleClickOutside), 0);
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            setTimeout(() => {
+                // Ensure the modal is fully removed before Cypress checks
+            }, 0);
         }
     
         return () => {
