@@ -8,18 +8,21 @@ function Modal() {
 
     // Close modal if clicked outside
     useEffect(() => {
-        const handleClickAnywhere = () => {
-            setOpen(false);
+        const handleClickOutside = (e) => {
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                setOpen(false);
+            }
         };
     
         if (open) {
-            document.addEventListener("mousedown", handleClickAnywhere);
+            setTimeout(() => document.addEventListener("mousedown", handleClickOutside), 0);
         }
     
         return () => {
-            document.removeEventListener("mousedown", handleClickAnywhere);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [open]);
+    
     
 
     // Ensure modal is removed from the DOM when closed
